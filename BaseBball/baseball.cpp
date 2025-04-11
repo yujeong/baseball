@@ -11,11 +11,40 @@ public:
 	explicit Baseball(const string& question) : question(question) { }
 
 	GuessResult guess(const string& guessNumber) {
+		GuessResult result = { false, 0, 0 };
+
 		assertIllegalArgument(guessNumber);
 		if (guessNumber == question) {
 			return { true, 3 , 0 };
 		}
-		return { false, 0, 0 };
+		
+		result.strikes = getStrikes(guessNumber);
+		result.balls = getBalls(guessNumber);
+		return result;
+	}
+
+	int getStrikes(const string guessNumber)
+	{
+		int strikeCnt = 0;
+		for (int i = 0; i < 3; i++) {
+			if (guessNumber[i] == question[i]) {
+				strikeCnt++;
+			}
+		}
+		return strikeCnt;
+	}
+
+	int getBalls(const string guessNumber)
+	{
+		int ballCnt = 0;
+		for (int i = 0; i < 3; i++) {
+			if (guessNumber[i] == question[i]) continue;
+
+			int ret = question.find(guessNumber[i]);
+			if (ret != std::string::npos)
+				ballCnt++;
+		}
+		return ballCnt;
 	}
 
 	void assertIllegalArgument(const std::string& guessNumber)
@@ -44,5 +73,5 @@ public:
 		return false;
 	}
 private:
-	string question;
+	string question;	
 };

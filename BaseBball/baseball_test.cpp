@@ -31,6 +31,25 @@ TEST_F(BaseballFixture, ReturnSolvedResultIfMatchedNumber)
 	EXPECT_EQ(0, result.balls);
 }
 
+TEST_F(BaseballFixture, 2strikes0ball)
+{
+	GuessResult result = game.guess("125");
+
+	EXPECT_FALSE(result.solved);
+	EXPECT_EQ(2, result.strikes);
+	EXPECT_EQ(0, result.balls);
+}
+
+TEST_F(BaseballFixture, 1strikes2balls)
+{
+	GuessResult result = game.guess("132");
+
+	EXPECT_FALSE(result.solved);
+	EXPECT_EQ(1, result.strikes);
+	EXPECT_EQ(2, result.balls);
+}
+
+
 int main()
 {
 	::testing::InitGoogleMock();
